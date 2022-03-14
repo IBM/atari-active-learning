@@ -1,0 +1,37 @@
+language: python
+python:
+  # We don't actually use the Travis Python, but this keeps it organized.
+  - "3.9"
+install:
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - bash miniconda.sh -b -f -p $HOME/miniconda
+  - source "$HOME/miniconda/etc/profile.d/conda.sh"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda config --add channels conda-forge
+  - conda config --set channel_priority strict
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+
+  # Install VAE-IW
+  - git submodule init
+  - git submodule update
+
+  # Replace dep1 dep2 ... with your dependencies
+  - ls
+  - ( conda env list | grep al ) || conda env create -f environment.yml
+  - conda activate al
+
+jobs:
+  include:
+    - stage: test
+      # Unit tests
+      script: pytest test_depth_novelty.py
+
+# this works in public travis, not sure if it does on ibm travis
+cache:
+  directories:
+    - $HOME/miniconda

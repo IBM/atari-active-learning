@@ -1,0 +1,97 @@
+
+* Active Learning for Atari
+
+
+Preliminary README for how to run.
+
+** Installation
+
+#+begin_src
+git submodule update --init --recursive  # set up VAE-IW locally
+cp bprost-replace/* VAE-IW/srcC/         # patch B-PROST C module
+conda env create -v -f environment.yml   # This takes a while. Conda does not provide an informative progress, so be patient
+conda activate al
+wget http://www.atarimania.com/roms/Roms.rar
+unrar e Roms.rar Roms/                   # note: you need unrar
+python -m atari_py.import_roms Roms/     # atari_py is installed by conda
+#+end_src
+
+** Directory structure
+
+Listed in the best order of comprehension
+
++ main.py :: toplevel script for the main procedure
++ tests.py :: toplevel script for manual testing (designed to be loaded in an interactive environment like pycharm)
++ active_learning_screen.py :: Contains ActiveLearningScreen, a subclass of Screen class.
+  This class does various things for obtaining the features used for planning.
+  For example, this class stores screen pixels to a directory, computes their binary embedding,
+  retrain the network, or calls into BPROST.
+  + dataset.py :: defines a Dataloader / Dataset class that are updated by active learning.
+    Used by =active_learning_screen.py=.
+  + train_encoder.py :: The code that extends the network definitions in VAE-IW.
++ active_rollout_iw.py :: Provides a class ActiveRolloutIW,
+  which contains the outer loop of the rollout steps.
+  It calls into ActiveLearningTreeActor and BeliefStateDepthDataBase.
+  + active_learning_tree.py :: Contains ActiveLearningTreeActor,
+    which implements a meta-level tree search procedure
+    for Active Learning algorithms such as UCB, TS, SH, TTTS.
+    + reward_distributions.py :: implements utilities for performing bayesian inference (normal-gamma)
+  + depth_novelty.py :: contains BeliefStateDepthDataBase, a depthwise state history database class.
++ schedule.py :: A [[https://github.com/spotify/luigi][Luigi]]-based script for conducting a large-scale experiment on a compute cluster.
+  Customize the job submission command for your own needs.
++ VAE-IW/ (git submodule) :: VAE-IW repository that we extend by subclassing their class definitions.
++ bprost-replace/ :: a C module for computing B-PROST feature with a memory leak fix.
+
+** Running the test
+
+To perform a small-scale test (runs a set of short runs for a limited set of configurations),
+
+: ./schedule.py --log-level INFO --local-scheduler TestExperiment
+
+For a more comprehensive random testing (runs 100 randomly selected configurations, including various environments),
+
+: ./schedule.py --log-level INFO --local-scheduler RandomTestExperiment --tests 100
+
+** Examples
+
+To run B-PROST + rollout-IW with different action bandit schemes (with 'uniform' being equivalent to base rollout-IW),
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 1  BprostExperiment
+
+To run VAE-IW + rollout-IW with different loss function and beta,
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 1  VAEIWBaselineExperiment
+
+To run VAE-IW + rollout-IW with different bandit,
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 1  VAEIWBanditExperiment
+
+To run Olive (online-VAE),
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 1  OnlineVAEExperiment
+
+To run Olive with 200 budget,
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 1  OnlineVAEBudgetExperiment
+
+To generate tables,
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 1 AllAnalysis
+
+
+Increase =--workers= argument to run experiments in parallel.
+To parallelize the experiment with a job scheduler, customize
+=SingleActiveRolloutExperiment.cmd(self)= method in =./schedule.py= and then
+give =--cluster= argument from the command line.
+
+For example, to run all experiments on a cluster, with maximum 400 jobs at a time, use
+
+: ./schedule.py --log-level INFO --local-scheduler --workers 400 AllExperiment --cluster
+
+** Authors
+
+Copyright (c) 2022 Benjamin Ayton (aytonb@mit.edu), Masataro Asai (guicho2.71828@gmail.com, masataro.asai@ibm.com), IBM Corporation
+
+License: MIT
+
+

@@ -1,0 +1,3 @@
+[submodule "VAE-IW"]
+	path = VAE-IW
+	url = https://github.com/fred5577/VAE-IW.git

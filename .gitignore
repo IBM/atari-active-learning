@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea/
+*.pyc
+*~
+#*
+Roms/
+*.csv
+*.table
+results*/
+\**

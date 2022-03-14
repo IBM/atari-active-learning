@@ -1,0 +1,84 @@
+# This file is a part of atari-active-learning project.
+# Copyright (c) 2022 Benjamin Ayton (aytonb@mit.edu), Masataro Asai (guicho2.71828@gmail.com, masataro.asai@ibm.com), IBM Corporation
+
+name: al
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - _openmp_mutex=4.5=1_gnu
+  - attrs=21.2.0=pyhd3eb1b0_0
+  - ca-certificates=2021.7.5=h06a4308_1
+  - iniconfig=1.1.1=pyhd3eb1b0_0
+  - ld_impl_linux-64=2.35.1=h7274673_9
+  - libffi=3.3=he6710b0_2
+  - libgcc-ng=9.3.0=h5101ec6_17
+  - libgomp=9.3.0=h5101ec6_17
+  - libstdcxx-ng=9.3.0=hd4cf53a_17
+  - more-itertools=8.8.0=pyhd3eb1b0_0
+  - ncurses=6.2=he6710b0_1
+  - openssl=1.1.1k=h27cfd23_0
+  - packaging=21.0=pyhd3eb1b0_0
+  - pip=21.1.2=py39h06a4308_0
+  - pluggy=0.13.1=py39h06a4308_0
+  - py=1.10.0=pyhd3eb1b0_0
+  - pyparsing=2.4.7=pyhd3eb1b0_0
+  - pytest=6.2.4=py39h06a4308_2
+  - python=3.9.5=h12debd9_4
+  - readline=8.1=h27cfd23_0
+  - setuptools=52.0.0=py39h06a4308_0
+  - sqlite=3.35.4=hdfb4753_0
+  - tk=8.6.10=hbc83047_0
+  - toml=0.10.2=pyhd3eb1b0_0
+  - tzdata=2020f=h52ac0ba_0
+  - wheel=0.36.2=pyhd3eb1b0_0
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+  - pip:
+    - ansicolors
+    - pandas
+    - absl-py==0.13.0
+    - atari-py==0.2.9
+    - -e VAE-IW                 # bprost
+    - cachetools==4.2.2
+    - certifi==2021.5.30
+    - charset-normalizer==2.0.3
+    - cloudpickle==1.6.0
+    - cycler==0.10.0
+    - docutils==0.17.1
+    - google-auth==1.33.0
+    - google-auth-oauthlib==0.4.4
+    - grpcio==1.38.1
+    - gym==0.18.3
+    - idna==3.2
+    - kiwisolver==1.3.1
+    - lockfile==0.12.2
+    - luigi==3.0.3
+    - markdown==3.3.4
+    - matplotlib==3.4.2
+    - numpy==1.20.3
+    - oauthlib==3.1.1
+    - opencv-python==4.5.2.54
+    - pillow==8.2.0
+    - protobuf==3.17.3
+    - pyasn1==0.4.8
+    - pyasn1-modules==0.2.8
+    - pyglet==1.5.15
+    - python-daemon==2.3.0
+    - python-dateutil==2.8.1
+    - requests==2.26.0
+    - requests-oauthlib==1.3.0
+    - rsa==4.7.2
+    - scipy==1.6.3
+    - six==1.16.0
+    - tenacity==6.3.1
+    - tensorboard==2.5.0
+    - tensorboard-data-server==0.6.1
+    - tensorboard-plugin-wit==1.8.0
+    - torch==1.8.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+    - torchvision==0.9.1+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+    - tornado==6.1
+    - typing-extensions==3.10.0.0
+    - urllib3==1.26.6
+    - werkzeug==2.0.1
+

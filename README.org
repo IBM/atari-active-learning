@@ -1,8 +1,5 @@
 
-* Active Learning for Atari
-
-
-Preliminary README for how to run.
+* Width-Based Planning and Active Learning for Atari
 
 ** Installation
 
